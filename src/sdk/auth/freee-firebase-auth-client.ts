@@ -61,7 +61,7 @@ export class FreeeFirebaseAuthClient {
   /**
    * Get token, save it to firebase and login firebase
    */
-  async callback(code: string, res: Response): Promise<void> {
+  async callback(code: string, res: Response, baseUrl: string): Promise<void> {
     try {
       const result = await this.oauth2.authorizationCode
         .getToken({
@@ -82,7 +82,7 @@ export class FreeeFirebaseAuthClient {
       }
 
       // get freee user
-      const response = await this.getFreeeUser(freeeToken.accessToken)
+      const response = await this.getFreeeUser(freeeToken.accessToken, baseUrl)
 
       const id = response.data.user.id
       const email = response.data.user.email
@@ -133,8 +133,8 @@ export class FreeeFirebaseAuthClient {
     await this.tokenManager.createCryptoKey(date)
   }
 
-  private getFreeeUser(accessToken: string) {
-    return this.axios.get('/api/v1/users/me?companies=true', {
+  private getFreeeUser(accessToken: string, baseUrl: string) {
+    return this.axios.get(`${baseUrl}/api/1/users/me?companies=true`, {
       headers: { Authorization: `Bearer ${accessToken}` }
     })
   }
