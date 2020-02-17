@@ -45,7 +45,7 @@ declare module 'freee-firebase-sdk' {
     /**
      * Get token with authorized code from freee, save it to firebase and login firebase
      */
-    callback(code: string, res: express.Response): void
+    callback(code: string, res: express.Response, baseUrl: string): void
     /**
      * path for redirect on freee authorization
      */
